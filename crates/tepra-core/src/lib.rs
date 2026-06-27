@@ -2,6 +2,8 @@
 
 #![warn(missing_docs)]
 
+pub mod otel;
+
 /// Crate version baked at compile time.
 #[must_use]
 pub const fn version() -> &'static str {
