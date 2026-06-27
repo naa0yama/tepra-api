@@ -1,6 +1,8 @@
 //! tepra-api: REST API layer.
 
 pub mod actor;
+pub mod handlers;
+pub mod router;
 
 /// Returns the crate version from Cargo metadata.
 #[must_use]
