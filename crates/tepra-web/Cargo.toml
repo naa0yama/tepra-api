@@ -8,5 +8,16 @@ repository.workspace = true
 
 [lib]
 
+[[bin]]
+name = "tepra-api"
+path = "src/main.rs"
+
+[dependencies]
+tepra-api = { workspace = true }
+tepra-core = { workspace = true }
+
+[dev-dependencies]
+assert_cmd = { workspace = true }
+
 [lints]
 workspace = true
