@@ -278,6 +278,11 @@ impl PrinterHandle {
         let _ = self.task.await;
     }
 
+    /// Send the shutdown signal without consuming the handle or joining the task.
+    pub(super) async fn send_shutdown(&self) {
+        let _ = self.tx.send(Msg::Shutdown).await;
+    }
+
     /// Submit a print job without awaiting its completion; returns an actor-assigned [`JobId`].
     ///
     /// # Errors
