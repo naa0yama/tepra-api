@@ -9,6 +9,7 @@ repository.workspace = true
 [lib]
 
 [dependencies]
+dashmap = { workspace = true }
 tepra-core = { path = "../tepra-core" }
 tokio = { workspace = true }
 
