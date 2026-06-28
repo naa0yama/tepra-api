@@ -5,6 +5,7 @@ use std::sync::Arc;
 
 use axum::{
     Router,
+    response::Redirect,
     routing::{get, post},
 };
 use tepra_core::client::traits::TepraClient;
@@ -55,6 +56,7 @@ pub fn build_templates_router(state: AppState) -> Router {
 /// Build the web UI router (`/ui/*` routes, HTML + HTMX).
 pub fn build_ui_router(state: AppState) -> Router {
     Router::new()
+        .route("/", get(|| async { Redirect::permanent("/ui/") }))
         .route("/ui/", get(views::index))
         .route("/ui/printers/{name}", get(views::printer_detail))
         .route("/ui/jobs/{printer}/{job_id}", get(views::job_card))

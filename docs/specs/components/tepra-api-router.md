@@ -26,6 +26,7 @@
   - `POST /api/printer/template/importframe` — フレーム抽出
   - `GET /api/templates` — `template_dir` 配下の列挙
 - `build_ui_router(state)` — HTML UI ( Askama + HTMX )
+  - `GET /` — `Redirect::permanent("/ui/")` ( ルートリダイレクト )
   - `GET /ui/` — index
   - `GET /ui/printers/{name}` — 詳細カード
   - `GET /ui/jobs/{printer}/{job_id}` — ジョブカード ( 1s polling 対象 )
