@@ -43,3 +43,45 @@ impl AppState {
         Self::new_with_template_dir(client, PathBuf::new())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #![allow(clippy::unwrap_used)]
+    use std::sync::Arc;
+
+    use tepra_core::client::MockTepraClient;
+
+    use super::*;
+
+    fn mock_client() -> Arc<dyn TepraClient> {
+        Arc::new(MockTepraClient::new())
+    }
+
+    #[test]
+    fn new_creates_state_with_empty_template_dir() {
+        let state = AppState::new(mock_client());
+        assert_eq!(state.template_dir, PathBuf::new());
+    }
+
+    #[test]
+    fn new_with_template_dir_stores_path() {
+        let path = PathBuf::from("/tmp/labels");
+        let state = AppState::new_with_template_dir(mock_client(), path.clone());
+        assert_eq!(state.template_dir, path);
+    }
+
+    #[test]
+    fn clone_preserves_template_dir() {
+        let path = PathBuf::from("/tmp/labels");
+        let state = AppState::new_with_template_dir(mock_client(), path);
+        let cloned = state.clone();
+        assert_eq!(cloned.template_dir, state.template_dir);
+    }
+
+    #[test]
+    fn debug_impl_contains_struct_name() {
+        let state = AppState::new(mock_client());
+        let s = format!("{state:?}");
+        assert!(s.contains("AppState"));
+    }
+}
