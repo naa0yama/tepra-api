@@ -9,7 +9,7 @@ use axum::{
 
 use crate::{
     state::AppState,
-    views::{IndexTemplate, JobCardTemplate, PrinterDetailTemplate},
+    views::{HtmlTemplate, IndexTemplate, JobCardTemplate, PrinterDetailTemplate},
 };
 
 const CREATOR_API_ERROR: &str = "TEPRA Creator WebAPI に接続できません";
@@ -21,7 +21,7 @@ pub async fn index(State(state): State<AppState>) -> impl IntoResponse {
         |_| (vec![], Some(CREATOR_API_ERROR.to_owned())),
         |items| (items.into_iter().map(|p| p.printer_name).collect(), None),
     );
-    IndexTemplate { printers, error }
+    HtmlTemplate(IndexTemplate { printers, error })
 }
 
 /// `GET /ui/printers/{name}` — per-printer detail page.
@@ -34,11 +34,11 @@ pub async fn printer_detail(
         |_| (false, Some(CREATOR_API_ERROR.to_owned())),
         |resp| (resp.online, None),
     );
-    PrinterDetailTemplate {
+    HtmlTemplate(PrinterDetailTemplate {
         printer_name: name,
         online,
         error,
-    }
+    })
 }
 
 /// `GET /ui/jobs/{printer}/{job_id}` — HTMX job-card partial.
@@ -62,11 +62,11 @@ pub async fn job_card(
         Some(resp.data_progress)
     };
 
-    Ok(JobCardTemplate {
+    Ok(HtmlTemplate(JobCardTemplate {
         printer_name,
         job_id,
         job_end: resp.job_end,
         canceled: resp.canceled,
         progress,
-    })
+    }))
 }

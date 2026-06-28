@@ -27,84 +27,73 @@ repository = "https://github.com/naa0yama/boilerplate-rust"
 # graft:keep-start
 # Project-specific dependencies are listed here.
 
+## Config
+figment = { version = "0.10", features = ["env", "toml"] }
+
 ## Core
-clap = { version = "4.5.45", default-features = false, features = ["std", "derive", "help", "usage", "error-context", "color", "suggestions"] }
+async-trait = "0.1.89"
+clap = { version = "4.6.1", default-features = false, features = ["color", "derive", "error-context", "help", "std", "suggestions", "usage"] }
 
 ## Data
-reqwest = { version = "0.13.1", default-features = false, features = ["blocking", "json", "multipart", "rustls", "stream"] }
-rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12"] }
-serde = { version = "1.0.219", features = ["derive"] }
-serde_json = "1.0.137"
+reqwest = { version = "0.13.4", default-features = false, features = ["blocking", "json", "multipart", "rustls", "stream"] }
+rustls = { version = "0.23.41", default-features = false, features = ["ring", "std", "tls12"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.150"
 
-## Random
-rand = { version = "0.10", default-features = false, features = ["thread_rng"] }
+## Domain
+dashmap = "6.2.1"
+phf = { version = "0.14", features = ["macros"] }
+thiserror = "2.0.18"
+ulid = { version = "1", features = ["serde"] }
 
-# graft:keep-end
+## HTTP/Web
+axum = { version = "0.8.9", features = ["macros", "multipart"] }
+tokio = { version = "1.52.3", features = ["full"] }
+tower = "0.5.3"
+tower-http = { version = "0.6.11", features = ["fs", "trace"] }
 
-## Core
-anyhow = "1.0"
-async-trait = "0.1"
+## OpenAPI
+utoipa = { version = "5", features = ["axum_extras"] }
 
-## Logging
-tracing = "0.1.41"
-tracing-subscriber = { version = "0.3.20", default-features = false, features = ["env-filter", "fmt", "ansi", "std"] }
+## Templating
+askama = "0.16.0"
 
-## System info (optional, behind `process-metrics` feature)
-sysinfo = { version = "0.39", default-features = false, features = ["system"] }
-
-## OpenTelemetry semantic conventions (optional, behind `process-metrics` feature)
-## semconv_experimental: enables process.* metric name constants (currently experimental)
-opentelemetry-semantic-conventions = { version = "0.32", default-features = false, features = ["semconv_experimental"] }
-
-## Hostname (optional, behind `otel` feature)
-gethostname = "1.1.0"
-
-## OpenTelemetry (optional, behind `otel` feature)
-opentelemetry = { version = "0.32", default-features = false, features = ["trace", "metrics", "logs"] }
-opentelemetry-appender-tracing = { version = "0.32", default-features = false }
-opentelemetry-otlp = { version = "0.32", default-features = false, features = ["trace", "logs", "metrics", "http-proto", "reqwest-blocking-client"] }
-opentelemetry_sdk = { version = "0.32", default-features = false, features = ["trace", "logs", "metrics"] }
-tracing-opentelemetry = { version = "0.33", default-features = false }
+## URL
+url = "2.5.8"
 
 ## Workspace crates
 tepra-api = { path = "crates/tepra-api" }
 tepra-core = { path = "crates/tepra-core" }
 
-## Dev dependencies
+## Dev
+axum-test = "16"
+insta = { version = "1.48.0", features = ["redactions", "yaml"] }
+wiremock = "0.6.5"
+
+# graft:keep-end
+
+## Core
+anyhow = "1.0.103"
+
+## Logging
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", default-features = false, features = ["ansi", "env-filter", "fmt", "std"] }
+
+## OpenTelemetry
+gethostname = "1.1.0"
+opentelemetry = { version = "0.32.0", default-features = false, features = ["logs", "metrics", "trace"] }
+opentelemetry-appender-tracing = { version = "0.32.0", default-features = false }
+opentelemetry-otlp = { version = "0.32.0", default-features = false, features = ["http-proto", "logs", "metrics", "reqwest-blocking-client", "trace"] }
+opentelemetry-semantic-conventions = { version = "0.32.1", default-features = false, features = ["semconv_experimental"] }
+opentelemetry_sdk = { version = "0.32.1", default-features = false, features = ["logs", "metrics", "trace"] }
+sysinfo = { version = "0.39.5", default-features = false, features = ["system"] }
+tracing-opentelemetry = { version = "0.33.0", default-features = false }
+
+## Dev
 assert_cmd = "=2.2.2"
 predicates = "=3.1.4"
 tempfile = "=3.27.0"
 tracing-mock = "=0.1.0-beta.3"
-
-# --- HTTP / Web ---
-axum = { version = "0.7", features = ["macros", "multipart"] }
-tokio = { version = "1", features = ["full"] }
-tower = "0.5"
-tower-http = { version = "0.6", features = ["trace", "fs"] }
-
-# --- Templating / Frontend ---
-askama = { version = "0.12", features = ["with-axum"] }
-askama_axum = "0.4"
-
-# --- Domain ---
-dashmap = "6"
-phf = { version = "0.14", features = ["macros"] }
-thiserror = "2"
-ulid = { version = "1", features = ["serde"] }
-
-# --- Config ---
-figment = { version = "0.10", features = ["env", "toml"] }
-
-# --- OpenAPI ---
-utoipa = { version = "5", features = ["axum_extras"] }
-
-# --- URL ---
-url = "2"
-
-# --- Test (integration) ---
-axum-test = "16"
-insta = { version = "1", features = ["yaml", "redactions"] }
-wiremock = "0.6"
 
 # - -------------------------------------------------------------------------------------------------
 # - Lints

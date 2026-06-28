@@ -5,6 +5,7 @@ use std::sync::Arc;
 
 use axum::{
     Router,
+    response::Redirect,
     routing::{get, post},
 };
 use tepra_core::client::traits::TepraClient;
@@ -20,24 +21,24 @@ pub fn build_router(client: Arc<dyn TepraClient>) -> Router {
         .route("/api/printer", get(printers::list_printers))
         .route("/api/printer/version", get(printers::version))
         .route("/api/printer/autoselect", get(printers::autoselect))
-        .route("/api/printer/info/:name", get(printers::printer_info))
+        .route("/api/printer/info/{name}", get(printers::printer_info))
         .route(
-            "/api/printer/onlinestatus/:name",
+            "/api/printer/onlinestatus/{name}",
             get(printers::online_status),
         )
-        .route("/api/printer/lwstatus/:name", get(printers::lw_status))
-        .route("/api/printer/getmargin/:name", post(printers::get_margin))
+        .route("/api/printer/lwstatus/{name}", get(printers::lw_status))
+        .route("/api/printer/getmargin/{name}", post(printers::get_margin))
         .with_state(client)
 }
 
 /// Build the jobs API router for job-related `/api/printer/*` routes.
 pub fn build_jobs_router(state: AppState) -> Router {
     Router::new()
-        .route("/api/printer/print/:name", post(jobs::print))
-        .route("/api/printer/tapefeed/:name", get(jobs::tapefeed))
-        .route("/api/printer/job/progress/:name", get(jobs::job_progress))
-        .route("/api/printer/job/info/:name", get(jobs::job_info))
-        .route("/api/printer/job/control/:name", post(jobs::job_control))
+        .route("/api/printer/print/{name}", post(jobs::print))
+        .route("/api/printer/tapefeed/{name}", get(jobs::tapefeed))
+        .route("/api/printer/job/progress/{name}", get(jobs::job_progress))
+        .route("/api/printer/job/info/{name}", get(jobs::job_info))
+        .route("/api/printer/job/control/{name}", post(jobs::job_control))
         .with_state(state)
 }
 
@@ -55,8 +56,9 @@ pub fn build_templates_router(state: AppState) -> Router {
 /// Build the web UI router (`/ui/*` routes, HTML + HTMX).
 pub fn build_ui_router(state: AppState) -> Router {
     Router::new()
+        .route("/", get(|| async { Redirect::permanent("/ui/") }))
         .route("/ui/", get(views::index))
-        .route("/ui/printers/:name", get(views::printer_detail))
-        .route("/ui/jobs/:printer/:job_id", get(views::job_card))
+        .route("/ui/printers/{name}", get(views::printer_detail))
+        .route("/ui/jobs/{printer}/{job_id}", get(views::job_card))
         .with_state(state)
 }
