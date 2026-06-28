@@ -2,5 +2,5 @@
 
 #[test]
 fn crate_loads() {
-    let _ = tepra_api::router_version();
+    let _ = tepra::router_version();
 }

@@ -1,4 +1,4 @@
-//! Axum router builder for tepra-api.
+//! Axum router builder for tepra.
 #![allow(clippy::module_name_repetitions)]
 
 use std::sync::Arc;

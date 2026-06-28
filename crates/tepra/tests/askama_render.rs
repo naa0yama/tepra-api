@@ -18,7 +18,7 @@
 )]
 
 use askama::Template as _;
-use tepra_api::views::{IndexTemplate, JobCardTemplate, PrinterDetailTemplate};
+use tepra::views::{IndexTemplate, JobCardTemplate, PrinterDetailTemplate};
 
 // ---------------------------------------------------------------------------
 // IndexTemplate

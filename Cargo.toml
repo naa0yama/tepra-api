@@ -7,7 +7,7 @@ resolver = "3"
 # Project-specific dependencies are listed here.
 
 members = [
-	"crates/tepra-api",
+	"crates/tepra",
 	"crates/tepra-core",
 	"crates/tepra-web",
 ]
@@ -62,7 +62,7 @@ askama = "0.16.0"
 url = "2.5.8"
 
 ## Workspace crates
-tepra-api = { path = "crates/tepra-api" }
+tepra = { path = "crates/tepra" }
 tepra-core = { path = "crates/tepra-core" }
 
 ## Dev

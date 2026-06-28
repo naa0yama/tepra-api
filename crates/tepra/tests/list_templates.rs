@@ -14,7 +14,7 @@
 
 use std::{fs, path::Path};
 
-use tepra_api::templates::list_templates;
+use tepra::templates::list_templates;
 
 // ---------------------------------------------------------------------------
 // helpers

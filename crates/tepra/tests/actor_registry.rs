@@ -12,7 +12,7 @@
 
 use std::sync::Arc;
 
-use tepra_api::actor::PrinterRegistry;
+use tepra::actor::PrinterRegistry;
 use tepra_core::{
     client::{MockTepraClient, TepraClient, mock::MockCall},
     dto::job::{

@@ -1,4 +1,4 @@
-//! tepra-api: REST API layer.
+//! tepra: REST API layer.
 
 pub mod actor;
 pub mod handlers;

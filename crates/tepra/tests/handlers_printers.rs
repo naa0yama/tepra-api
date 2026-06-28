@@ -15,7 +15,7 @@ use axum::{
     http::{Request, StatusCode},
 };
 use serde_json::Value;
-use tepra_api::router::build_router;
+use tepra::router::build_router;
 use tepra_core::{
     client::{mock::MockTepraClient, traits::TepraClient},
     dto::{

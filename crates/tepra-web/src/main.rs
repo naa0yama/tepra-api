@@ -1,4 +1,4 @@
-//! tepra-api binary entry point.
+//! tepra binary entry point.
 
 use std::sync::Arc;
 
@@ -21,15 +21,13 @@ async fn main() -> anyhow::Result<()> {
             let client = Arc::new(tepra_core::client::ReqwestTepraClient::new(
                 args.creator_base,
             ));
-            let state = tepra_api::state::AppState::new_with_template_dir(
-                client.clone(),
-                args.template_dir,
-            );
+            let state =
+                tepra::state::AppState::new_with_template_dir(client.clone(), args.template_dir);
 
-            let router = tepra_api::router::build_router(client)
-                .merge(tepra_api::router::build_jobs_router(state.clone()))
-                .merge(tepra_api::router::build_templates_router(state.clone()))
-                .merge(tepra_api::router::build_ui_router(state))
+            let router = tepra::router::build_router(client)
+                .merge(tepra::router::build_jobs_router(state.clone()))
+                .merge(tepra::router::build_templates_router(state.clone()))
+                .merge(tepra::router::build_ui_router(state))
                 .layer(TraceLayer::new_for_http());
 
             let listener = tokio::net::TcpListener::bind(&args.bind)

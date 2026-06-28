@@ -16,7 +16,7 @@ use axum::{
     body::Body,
     http::{Request, StatusCode},
 };
-use tepra_api::{router::build_ui_router, state::AppState};
+use tepra::{router::build_ui_router, state::AppState};
 use tepra_core::{
     client::{
         mock::{MockCall, MockTepraClient},

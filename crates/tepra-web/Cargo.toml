@@ -9,14 +9,14 @@ repository.workspace = true
 [lib]
 
 [[bin]]
-name = "tepra-api"
+name = "tepra"
 path = "src/main.rs"
 
 [dependencies]
 anyhow = { workspace = true }
 axum = { workspace = true }
 clap = { workspace = true }
-tepra-api = { workspace = true }
+tepra = { workspace = true }
 tepra-core = { workspace = true }
 tokio = { workspace = true }
 tower-http = { workspace = true }

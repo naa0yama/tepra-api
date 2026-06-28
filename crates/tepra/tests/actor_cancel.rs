@@ -13,7 +13,7 @@
 
 use std::sync::Arc;
 
-use tepra_api::actor::PrinterActor;
+use tepra::actor::PrinterActor;
 use tepra_core::{
     client::{MockTepraClient, TepraClient, mock::MockCall},
     dto::job::{
@@ -243,12 +243,12 @@ async fn test_cancel_current_job_continues_next() {
 
     assert_eq!(
         state_a.status,
-        tepra_api::actor::job::JobStatus::Canceled,
+        tepra::actor::job::JobStatus::Canceled,
         "job A must be Canceled"
     );
     assert_eq!(
         state_b.status,
-        tepra_api::actor::job::JobStatus::Completed,
+        tepra::actor::job::JobStatus::Completed,
         "job B must be Completed"
     );
 

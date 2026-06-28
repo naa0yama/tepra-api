@@ -2145,7 +2145,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "tepra-api"
+name = "tepra"
 version = "0.1.25"
 dependencies = [
  "anyhow",
@@ -2194,7 +2194,7 @@ dependencies = [
  "axum",
  "clap",
  "predicates",
- "tepra-api",
+ "tepra",
  "tepra-core",
  "tokio",
  "tower-http 0.7.0",

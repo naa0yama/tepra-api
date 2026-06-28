@@ -58,7 +58,7 @@
 	"portsAttributes": {
 		"3000": {
 			"onAutoForward": "notify",
-			"label": "tepra-api",
+			"label": "tepra",
 			"requireLocalPort": false
 		},
 		"5080": {
