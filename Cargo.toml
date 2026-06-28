@@ -83,7 +83,7 @@ tower = "0.5"
 tower-http = { version = "0.6", features = ["trace", "fs"] }
 
 # --- Templating / Frontend ---
-askama = { version = "0.12", features = ["with-axum"] }
+askama = { version = "0.16", features = ["with-axum"] }
 askama_axum = "0.4"
 
 # --- Domain ---
