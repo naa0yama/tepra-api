@@ -84,7 +84,7 @@ tower-http = { version = "0.6", features = ["trace", "fs"] }
 
 # --- Templating / Frontend ---
 askama = { version = "0.12", features = ["with-axum"] }
-askama_axum = "0.4"
+askama_axum = "0.5"
 
 # --- Domain ---
 dashmap = "6"
