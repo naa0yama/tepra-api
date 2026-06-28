@@ -11,11 +11,8 @@ use tepra_core::dto::job::{
     JobControlRequest, JobInfoResponse, JobProgressResponse, PrintRequest, PrintResponse,
 };
 
+use super::err_502;
 use crate::state::AppState;
-
-fn err_502(_: tepra_core::error::TepraError) -> StatusCode {
-    StatusCode::BAD_GATEWAY
-}
 
 /// `POST /api/printer/print/{name}` — enqueue a print job via the Creator API.
 #[axum::debug_handler]

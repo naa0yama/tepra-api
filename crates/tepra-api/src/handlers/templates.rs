@@ -4,11 +4,8 @@
 use axum::{Json, extract::State, http::StatusCode};
 use tepra_core::dto::template::{ImportFrameItem, ImportFrameRequest};
 
+use super::err_502;
 use crate::{state::AppState, templates::TemplateEntry};
-
-fn err_502(_: tepra_core::error::TepraError) -> StatusCode {
-    StatusCode::BAD_GATEWAY
-}
 
 /// `POST /api/printer/template/importframe` — extract frame list from a template file.
 #[axum::debug_handler]

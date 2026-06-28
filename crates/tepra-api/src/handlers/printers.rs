@@ -19,9 +19,7 @@ use tepra_core::{
     },
 };
 
-fn err_502(_: tepra_core::error::TepraError) -> StatusCode {
-    StatusCode::BAD_GATEWAY
-}
+use super::err_502;
 
 /// `GET /api/printer` — list all connected printers.
 #[axum::debug_handler]
