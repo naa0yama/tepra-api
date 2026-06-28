@@ -50,7 +50,7 @@ ulid = { version = "1", features = ["serde"] }
 axum = { version = "0.8.9", features = ["macros", "multipart"] }
 tokio = { version = "1.52.3", features = ["full"] }
 tower = "0.5.3"
-tower-http = { version = "0.6.11", features = ["fs", "trace"] }
+tower-http = { version = "0.7.0", features = ["fs", "trace"] }
 
 ## OpenAPI
 utoipa = { version = "5", features = ["axum_extras"] }
