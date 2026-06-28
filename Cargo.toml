@@ -88,7 +88,7 @@ askama_axum = "0.4"
 
 # --- Domain ---
 dashmap = "6"
-phf = { version = "0.11", features = ["macros"] }
+phf = { version = "0.14", features = ["macros"] }
 thiserror = "2"
 ulid = { version = "1", features = ["serde"] }
 
