@@ -1,6 +1,6 @@
-# tepra-api Router
+# tepra Router
 
-`crates/tepra-api/src/router.rs` が公開する Axum router 群。 全 13 endpoint
+`crates/tepra/src/router.rs` が公開する Axum router 群。 全 13 endpoint
 の TEPRA Creator `WebAPI` facade と HTML UI を 4 つの builder に分割して
 合成する。
 
@@ -38,7 +38,7 @@
 
 ## AppState
 
-`crates/tepra-api/src/state.rs`:
+`crates/tepra/src/state.rs`:
 
 - `client: Arc<dyn TepraClient>` — Creator API 呼出 ( 共有 )
 - `registry: Arc<PrinterRegistry>` — per-printer actor lookup

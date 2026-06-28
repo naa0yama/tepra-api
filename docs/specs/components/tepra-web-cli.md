@@ -1,13 +1,13 @@
 # tepra-web CLI
 
-`crates/tepra-web/src/cli.rs` が定義する `tepra-api` バイナリの CLI 仕様。
+`crates/tepra-web/src/cli.rs` が定義する `tepra` バイナリの CLI 仕様。
 clap derive で subcommand 分割し、 Linux / Windows の配備差分を
 single binary 内に閉じ込める。
 
 ## 構造
 
 ```
-tepra-api <SUBCOMMAND>
+tepra <SUBCOMMAND>
   serve       全プラットフォーム / HTTP サーバ起動
   version     全プラットフォーム / ビルドメタ表示
   tray        Windows のみ ( ADR 0005 ) / トレイ常駐 + serve 内蔵
@@ -20,7 +20,7 @@ OS gate は `#[cfg(windows)]` で表現し、 Linux ビルドでは
 ## `serve` arguments
 
 ```
-tepra-api serve \
+tepra serve \
   --template-dir <PATH> \
   [--bind <ADDR>] \
   [--creator-base <URL>]
