@@ -113,3 +113,69 @@ async fn test_import_frame_client_error_returns_502() {
 
     assert_eq!(response.status(), StatusCode::BAD_GATEWAY);
 }
+
+// ---------------------------------------------------------------------------
+// 2. GET /api/templates
+// ---------------------------------------------------------------------------
+
+#[tokio::test]
+async fn test_list_template_files_returns_200_with_lbl_files() {
+    let dir = tempfile::tempdir().unwrap();
+    std::fs::write(dir.path().join("label.lbl"), b"").unwrap();
+
+    let mock = Arc::new(MockTepraClient::new());
+    let response = make_app(mock, dir.path().to_owned())
+        .oneshot(
+            Request::builder()
+                .uri("/api/templates")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+
+    assert_eq!(response.status(), StatusCode::OK);
+    let json = body_json(response.into_body()).await;
+    let items = json.as_array().unwrap();
+    assert_eq!(items.len(), 1);
+    assert_eq!(items[0]["path"], "label.lbl");
+}
+
+#[tokio::test]
+async fn test_list_template_files_empty_dir_returns_empty_array() {
+    let dir = tempfile::tempdir().unwrap();
+
+    let mock = Arc::new(MockTepraClient::new());
+    let response = make_app(mock, dir.path().to_owned())
+        .oneshot(
+            Request::builder()
+                .uri("/api/templates")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+
+    assert_eq!(response.status(), StatusCode::OK);
+    let json = body_json(response.into_body()).await;
+    assert_eq!(json.as_array().unwrap().len(), 0);
+}
+
+#[tokio::test]
+async fn test_list_template_files_missing_dir_returns_500() {
+    let dir = tempfile::tempdir().unwrap();
+    let missing = dir.path().join("nonexistent");
+
+    let mock = Arc::new(MockTepraClient::new());
+    let response = make_app(mock, missing)
+        .oneshot(
+            Request::builder()
+                .uri("/api/templates")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+
+    assert_eq!(response.status(), StatusCode::INTERNAL_SERVER_ERROR);
+}
