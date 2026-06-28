@@ -1,10 +1,27 @@
 //! Askama HTML templates for the web UI.
 //!
 //! Template files live under `templates/` (Askama default search path).
-//! T15b creates the actual `.html` files; until then `cargo build` fails
-//! with "no template found" — this is the intentional RED state for T15a.
 
 use askama::Template;
+use axum::{
+    http::StatusCode,
+    response::{Html, IntoResponse, Response},
+};
+
+/// Newtype that renders an askama template as an HTML response.
+///
+/// Required because askama 0.13+ removed framework integration crates.
+#[derive(Debug)]
+pub struct HtmlTemplate<T: Template>(pub T);
+
+impl<T: Template> IntoResponse for HtmlTemplate<T> {
+    fn into_response(self) -> Response {
+        self.0.render().map_or_else(
+            |_| StatusCode::INTERNAL_SERVER_ERROR.into_response(),
+            |html| Html(html).into_response(),
+        )
+    }
+}
 
 // ---------------------------------------------------------------------------
 // Index page — printer list
