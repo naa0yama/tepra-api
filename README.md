@@ -139,6 +139,24 @@ mise run ast-grep         # ast-grep カスタムルールチェック
 mise run pre-commit       # clean:sweep + fmt:check + clippy:strict + ast-grep + lint:gh + check:no-plans
 ```
 
+### `tepra-api` サーバー起動
+
+```bash
+# HTTP サーバー起動 ( default: 0.0.0.0:3000 / creator-base http://localhost:29108 )
+cargo run -p tepra-web -- serve --template-dir ./templates
+
+# bind / creator-base を明示
+cargo run -p tepra-web -- serve \
+  --template-dir ./templates \
+  --bind 127.0.0.1:8080 \
+  --creator-base http://localhost:29108
+
+# バージョン表示
+cargo run -p tepra-web -- version
+```
+
+詳細は `docs/specs/components/tepra-web-cli.md` を参照。
+
 ## プロジェクト構造
 
 ```
