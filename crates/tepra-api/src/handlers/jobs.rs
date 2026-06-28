@@ -13,20 +13,23 @@ use tepra_core::dto::job::{
 
 use crate::state::AppState;
 
-#[allow(dead_code)]
-pub(crate) fn err_502(_: tepra_core::error::TepraError) -> StatusCode {
+fn err_502(_: tepra_core::error::TepraError) -> StatusCode {
     StatusCode::BAD_GATEWAY
 }
 
-/// `POST /api/printer/print/{name}` — enqueue a print job via `PrinterActor`.
+/// `POST /api/printer/print/{name}` — enqueue a print job via the Creator API.
 #[axum::debug_handler]
-#[allow(clippy::todo)]
 pub async fn print(
-    State(_state): State<AppState>,
-    Path(_name): Path<String>,
-    Json(_req): Json<PrintRequest>,
+    State(state): State<AppState>,
+    Path(name): Path<String>,
+    Json(req): Json<PrintRequest>,
 ) -> Result<Json<PrintResponse>, StatusCode> {
-    todo!("T14d")
+    state
+        .client
+        .print(&name, req)
+        .await
+        .map(Json)
+        .map_err(err_502)
 }
 
 /// Query parameters for `GET /api/printer/tapefeed/{name}`.
@@ -38,13 +41,17 @@ pub struct TapefeedQuery {
 
 /// `GET /api/printer/tapefeed/{name}?cutflag=<bool>` — advance tape.
 #[axum::debug_handler]
-#[allow(clippy::todo)]
 pub async fn tapefeed(
-    State(_state): State<AppState>,
-    Path(_name): Path<String>,
-    Query(_q): Query<TapefeedQuery>,
+    State(state): State<AppState>,
+    Path(name): Path<String>,
+    Query(q): Query<TapefeedQuery>,
 ) -> Result<StatusCode, StatusCode> {
-    todo!("T14d")
+    state
+        .client
+        .tapefeed(&name, q.cutflag)
+        .await
+        .map(|()| StatusCode::OK)
+        .map_err(err_502)
 }
 
 /// Query parameters for job progress and info endpoints.
@@ -56,33 +63,45 @@ pub struct JobIdQuery {
 
 /// `GET /api/printer/job/progress/{name}?jobid=N` — poll print job progress.
 #[axum::debug_handler]
-#[allow(clippy::todo)]
 pub async fn job_progress(
-    State(_state): State<AppState>,
-    Path(_name): Path<String>,
-    Query(_q): Query<JobIdQuery>,
+    State(state): State<AppState>,
+    Path(name): Path<String>,
+    Query(q): Query<JobIdQuery>,
 ) -> Result<Json<JobProgressResponse>, StatusCode> {
-    todo!("T14d")
+    state
+        .client
+        .job_progress(&name, q.jobid)
+        .await
+        .map(Json)
+        .map_err(err_502)
 }
 
 /// `GET /api/printer/job/info/{name}?jobid=N` — Win32 job status bitmask.
 #[axum::debug_handler]
-#[allow(clippy::todo)]
 pub async fn job_info(
-    State(_state): State<AppState>,
-    Path(_name): Path<String>,
-    Query(_q): Query<JobIdQuery>,
+    State(state): State<AppState>,
+    Path(name): Path<String>,
+    Query(q): Query<JobIdQuery>,
 ) -> Result<Json<JobInfoResponse>, StatusCode> {
-    todo!("T14d")
+    state
+        .client
+        .job_info(&name, q.jobid)
+        .await
+        .map(Json)
+        .map_err(err_502)
 }
 
 /// `POST /api/printer/job/control/{name}` — pause / resume / cancel a job.
 #[axum::debug_handler]
-#[allow(clippy::todo)]
 pub async fn job_control(
-    State(_state): State<AppState>,
-    Path(_name): Path<String>,
-    Json(_req): Json<JobControlRequest>,
+    State(state): State<AppState>,
+    Path(name): Path<String>,
+    Json(req): Json<JobControlRequest>,
 ) -> Result<StatusCode, StatusCode> {
-    todo!("T14d")
+    state
+        .client
+        .job_control(&name, req)
+        .await
+        .map(|()| StatusCode::OK)
+        .map_err(err_502)
 }
