@@ -77,8 +77,8 @@ async fn index_calls_list_printers() {
 
 // ---------------------------------------------------------------------------
 // 2. index_handles_client_error
-//    Mock returns TepraError; handler must return 502 BAD_GATEWAY.
-//    RED: stub ignores client → returns 200.
+//    Mock returns TepraError; handler must return 200 OK with error banner.
+//    RED: current stub returns 502 BAD_GATEWAY.
 // ---------------------------------------------------------------------------
 
 #[tokio::test]
@@ -93,8 +93,13 @@ async fn index_handles_client_error() {
 
     assert_eq!(
         response.status(),
-        StatusCode::BAD_GATEWAY,
-        "client error must yield 502 BAD_GATEWAY"
+        StatusCode::OK,
+        "client error must yield 200 OK with error banner (not 502)"
+    );
+    let html = body_html(response.into_body()).await;
+    assert!(
+        html.contains("TEPRA Creator WebAPI に接続できません"),
+        "index error must show error banner; got:\n{html}"
     );
 }
 
@@ -165,8 +170,8 @@ async fn printer_detail_offline() {
 
 // ---------------------------------------------------------------------------
 // 5. printer_detail_handles_client_error
-//    Mock returns TepraError; handler must return 502 BAD_GATEWAY.
-//    RED: stub ignores client → returns 200.
+//    Mock returns TepraError; handler must return 200 OK with error banner.
+//    RED: current stub returns 502 BAD_GATEWAY.
 // ---------------------------------------------------------------------------
 
 #[tokio::test]
@@ -186,7 +191,39 @@ async fn printer_detail_handles_client_error() {
 
     assert_eq!(
         response.status(),
-        StatusCode::BAD_GATEWAY,
-        "client error must yield 502 BAD_GATEWAY"
+        StatusCode::OK,
+        "client error must yield 200 OK with error banner (not 502)"
+    );
+    let html = body_html(response.into_body()).await;
+    assert!(
+        html.contains("TEPRA Creator WebAPI に接続できません"),
+        "printer_detail error must show error banner; got:\n{html}"
+    );
+    assert!(
+        html.contains("PR-001"),
+        "printer_detail error must still show printer name from URL; got:\n{html}"
+    );
+}
+
+// ---------------------------------------------------------------------------
+// 6. error_banner_contains_full_product_name
+//    Verify the exact vendor product name appears in the error banner.
+//    RED: current stub returns 502, no HTML body with the product name.
+// ---------------------------------------------------------------------------
+
+#[tokio::test]
+async fn error_banner_contains_full_product_name() {
+    let mock = Arc::new(MockTepraClient::new());
+    mock.push_list_printers(Err(TepraError::Creator { errcode: 503 }));
+
+    let response = make_app(mock)
+        .oneshot(Request::builder().uri("/ui/").body(Body::empty()).unwrap())
+        .await
+        .unwrap();
+
+    let html = body_html(response.into_body()).await;
+    assert!(
+        html.contains("TEPRA Creator WebAPI"),
+        "error banner must contain full product name 'TEPRA Creator WebAPI'; got:\n{html}"
     );
 }
