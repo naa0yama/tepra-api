@@ -431,6 +431,54 @@ mod tests {
     }
 
     #[test]
+    fn creator_error_all_variants() {
+        let cases = [
+            (CreatorError::Success, 0u32),
+            (CreatorError::PrinterNotFound, 1),
+            (CreatorError::FileNotSupport, 2),
+            (CreatorError::FileNotFound, 3),
+            (CreatorError::InvalidParameter, 4),
+            (CreatorError::PrintJobNotFound, 5),
+            (CreatorError::PrinterAccessError, 100),
+            (CreatorError::PrintStartError, 101),
+            (CreatorError::PrintJobAccessError, 200),
+            (CreatorError::WebapiRequestError, 201),
+            (CreatorError::WebapiInternalError, 202),
+            (CreatorError::PrintModuleExecError, 203),
+        ];
+        for (variant, wire) in cases {
+            assert_eq!(
+                u32::from(variant),
+                wire,
+                "Into<u32> mismatch for {variant:?}"
+            );
+            assert_eq!(
+                CreatorError::try_from(wire).unwrap(),
+                variant,
+                "TryFrom<u32> mismatch for wire={wire}"
+            );
+        }
+    }
+
+    #[test]
+    fn creator_error_invalid_value_returns_err() {
+        assert_eq!(CreatorError::try_from(999u32), Err(999));
+    }
+
+    #[test]
+    fn creator_error_serde_round_trip() {
+        let json = serde_json::to_string(&CreatorError::PrinterNotFound).unwrap();
+        let back: CreatorError = serde_json::from_str(&json).unwrap();
+        assert_eq!(back, CreatorError::PrinterNotFound);
+    }
+
+    #[test]
+    fn creator_error_serde_invalid_rejects() {
+        let result: serde_json::Result<CreatorError> = serde_json::from_str("9999");
+        assert!(result.is_err());
+    }
+
+    #[test]
     fn tape_id_round_trip() {
         let t = TapeId::_18Mm;
         let n: u32 = t.into();
@@ -439,10 +487,78 @@ mod tests {
     }
 
     #[test]
+    fn tape_id_all_variants() {
+        let cases = [
+            (TapeId::_04Mm, 274u32),
+            (TapeId::_06Mm, 259),
+            (TapeId::_09Mm, 260),
+            (TapeId::_12Mm, 261),
+            (TapeId::_18Mm, 262),
+            (TapeId::_24Mm, 263),
+            (TapeId::_36Mm, 264),
+            (TapeId::_24MmCable, 275),
+            (TapeId::_36MmCable, 276),
+            (TapeId::_24MmIndex, 277),
+            (TapeId::_36MmLabel1, 299),
+            (TapeId::_50Mm, 309),
+            (TapeId::_100Mm, 310),
+            (TapeId::_100MmLabel, 311),
+            (TapeId::DcTurntell01, 1559),
+            (TapeId::DcTurntell02, 1560),
+            (TapeId::DcTurntell03, 1561),
+            (TapeId::DcTurntell04, 1562),
+            (TapeId::DcSelflami01, 1659),
+            (TapeId::DcSelflami02, 1660),
+            (TapeId::DcSelflami03, 1661),
+            (TapeId::DcSelflami04, 1662),
+        ];
+        for (variant, wire) in cases {
+            assert_eq!(
+                u32::from(variant),
+                wire,
+                "Into<u32> mismatch for {variant:?}"
+            );
+            assert_eq!(
+                TapeId::try_from(wire).unwrap(),
+                variant,
+                "TryFrom<u32> mismatch for wire={wire}"
+            );
+        }
+    }
+
+    #[test]
+    fn tape_id_invalid_value_returns_err() {
+        assert_eq!(TapeId::try_from(0u32), Err(0));
+        assert_eq!(TapeId::try_from(1u32), Err(1));
+    }
+
+    #[test]
     fn tape_cut_wire_round_trip() {
         assert_eq!(u32::from(TapeCutWire::EachLabel), 2);
         assert_eq!(u32::from(TapeCutWire::AfterJob), 3);
         assert_eq!(u32::from(TapeCutWire::NotCut), 1);
+    }
+
+    #[test]
+    fn tape_cut_wire_try_from_all_variants() {
+        assert_eq!(TapeCutWire::try_from(1u32).unwrap(), TapeCutWire::NotCut);
+        assert_eq!(TapeCutWire::try_from(2u32).unwrap(), TapeCutWire::EachLabel);
+        assert_eq!(TapeCutWire::try_from(3u32).unwrap(), TapeCutWire::AfterJob);
+        assert_eq!(TapeCutWire::try_from(0u32), Err(0));
+    }
+
+    #[test]
+    fn print_speed_wire_all_variants() {
+        let cases = [
+            (PrintSpeedWire::High, 1u32),
+            (PrintSpeedWire::Low, 2),
+            (PrintSpeedWire::Middle, 3),
+        ];
+        for (variant, wire) in cases {
+            assert_eq!(u32::from(variant), wire);
+            assert_eq!(PrintSpeedWire::try_from(wire).unwrap(), variant);
+        }
+        assert_eq!(PrintSpeedWire::try_from(0u32), Err(0));
     }
 
     #[test]
@@ -454,6 +570,53 @@ mod tests {
     }
 
     #[test]
+    fn tape_kind_all_variants() {
+        let cases: &[(TapeKind, i32)] = &[
+            (TapeKind::Normal, 0),
+            (TapeKind::Transfer, 1),
+            (TapeKind::Cable, 16),
+            (TapeKind::Index, 17),
+            (TapeKind::Braille, 64),
+            (TapeKind::Olefin, 80),
+            (TapeKind::ThermalPaper, 81),
+            (TapeKind::DieCutCircle, 96),
+            (TapeKind::DirCutEllipse, 97),
+            (TapeKind::DieCutRoundedCorners, 98),
+            (TapeKind::DieCutReserved1, 99),
+            (TapeKind::DirCutReserved4, 102),
+            (TapeKind::Hst, 112),
+            (TapeKind::Vinyl, 128),
+            (TapeKind::Cleaning, 144),
+            (TapeKind::EquipmentManagement, 145),
+            (TapeKind::Ribbon, 146),
+            (TapeKind::Magnet, 147),
+            (TapeKind::LuminousLight, 148),
+            (TapeKind::QualityPaper, 149),
+            (TapeKind::Iron, 150),
+            (TapeKind::BrPet, 201),
+            (TapeKind::Unknown, -1),
+        ];
+        for &(variant, wire) in cases {
+            assert_eq!(
+                i32::from(variant),
+                wire,
+                "Into<i32> mismatch for {variant:?}"
+            );
+            assert_eq!(
+                TapeKind::try_from(wire).unwrap(),
+                variant,
+                "TryFrom<i32> mismatch for wire={wire}"
+            );
+        }
+    }
+
+    #[test]
+    fn tape_kind_invalid_value_returns_err() {
+        assert_eq!(TapeKind::try_from(999i32), Err(999));
+        assert_eq!(TapeKind::try_from(2i32), Err(2));
+    }
+
+    #[test]
     fn status_error_round_trip() {
         let e = StatusError::CoverOpen;
         let n: u32 = e.into();
@@ -462,10 +625,116 @@ mod tests {
     }
 
     #[test]
+    fn status_error_all_variants() {
+        let cases = [
+            (StatusError::NoError, 0x00u32),
+            (StatusError::CutterError, 0x01),
+            (StatusError::NoTapeCartridge, 0x06),
+            (StatusError::HeadOverHeated, 0x15),
+            (StatusError::PrinterCancel, 0x20),
+            (StatusError::CoverOpen, 0x21),
+            (StatusError::LowVoltage, 0x22),
+            (StatusError::PowerOffCancel, 0x23),
+            (StatusError::TapeEjectError, 0x24),
+            (StatusError::TapeFeedError, 0x30),
+            (StatusError::InkRibbonSlack, 0x40),
+            (StatusError::InkRibbonShort, 0x41),
+            (StatusError::TapeEnd, 0x42),
+            (StatusError::CutLabelError, 0x43),
+            (StatusError::TemperatureError, 0x44),
+            (StatusError::InsufficientParameters, 0x45),
+            (StatusError::HalfCutterBladeNotSet, 0x50),
+            (StatusError::FullCutterBladeNotSet, 0x51),
+            (StatusError::HalfCutterBladeOff, 0x52),
+            (StatusError::FullCutterBladeOff, 0x53),
+            (StatusError::WinderCoverOpen, 0x54),
+            (StatusError::VinylTapeTemperatureError, 0x55),
+            (StatusError::WinderError, 0x56),
+            (StatusError::HalfCutAllCut, 0x57),
+            (StatusError::BigrollRecognitionAbnormality, 0x58),
+            (StatusError::BigrollNonCompliant, 0x59),
+            (StatusError::StopPrintingByAutoPowerOff, 0x5c),
+            (StatusError::StopPrintingByPowerSupplyChange, 0x5d),
+            (StatusError::WinderSet, 0x5e),
+            (StatusError::WinderNotSet, 0x5f),
+            (StatusError::WinderHalfCutAllCut, 0x60),
+            (StatusError::FirmwareUpdating, 0xffff_fffb),
+            (StatusError::DeviceUsing, 0xffff_fffc),
+            (StatusError::UnknownError, 0xffff_ffff),
+        ];
+        for (variant, wire) in cases {
+            assert_eq!(
+                u32::from(variant),
+                wire,
+                "Into<u32> mismatch for {variant:?}"
+            );
+            assert_eq!(
+                StatusError::try_from(wire).unwrap(),
+                variant,
+                "TryFrom<u32> mismatch for wire=0x{wire:x}"
+            );
+        }
+    }
+
+    #[test]
+    fn status_error_invalid_value_returns_err() {
+        assert_eq!(StatusError::try_from(0x99u32), Err(0x99));
+    }
+
+    #[test]
     fn import_frame_attribute_round_trip() {
         let a = ImportFrameAttribute::QrCode;
         let n: u32 = a.into();
         assert_eq!(n, 14);
         assert_eq!(ImportFrameAttribute::try_from(14u32).unwrap(), a);
+    }
+
+    #[test]
+    fn import_frame_attribute_all_variants() {
+        let cases = [
+            (ImportFrameAttribute::Text, 0u32),
+            (ImportFrameAttribute::Image, 1),
+            (ImportFrameAttribute::Jan8, 2),
+            (ImportFrameAttribute::Jan13, 3),
+            (ImportFrameAttribute::Code39, 4),
+            (ImportFrameAttribute::Code128, 5),
+            (ImportFrameAttribute::UpcA, 6),
+            (ImportFrameAttribute::UpcE, 7),
+            (ImportFrameAttribute::Nw7, 8),
+            (ImportFrameAttribute::Itf, 10),
+            (ImportFrameAttribute::Custombar, 11),
+            (ImportFrameAttribute::Ean128, 12),
+            (ImportFrameAttribute::Ean128Butuuryu, 13),
+            (ImportFrameAttribute::QrCode, 14),
+            (ImportFrameAttribute::Gs1Omni, 15),
+            (ImportFrameAttribute::Gs1Truncated, 16),
+            (ImportFrameAttribute::Gs1Stacked, 17),
+            (ImportFrameAttribute::Gs1StackedOmni, 18),
+            (ImportFrameAttribute::Gs1Limited, 19),
+            (ImportFrameAttribute::Gs1Expanded, 20),
+            (ImportFrameAttribute::Gs1ExpandedStacked, 21),
+            (ImportFrameAttribute::MaxiCode, 22),
+            (ImportFrameAttribute::Pdf417, 23),
+            (ImportFrameAttribute::DataMatrix, 24),
+            (ImportFrameAttribute::MicroQrCode, 25),
+        ];
+        for (variant, wire) in cases {
+            assert_eq!(
+                u32::from(variant),
+                wire,
+                "Into<u32> mismatch for {variant:?}"
+            );
+            assert_eq!(
+                ImportFrameAttribute::try_from(wire).unwrap(),
+                variant,
+                "TryFrom<u32> mismatch for wire={wire}"
+            );
+        }
+    }
+
+    #[test]
+    fn import_frame_attribute_invalid_value_returns_err() {
+        assert_eq!(ImportFrameAttribute::try_from(9u32), Err(9));
+        assert_eq!(ImportFrameAttribute::try_from(999u32), Err(999));
     }
 }
