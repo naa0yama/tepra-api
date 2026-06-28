@@ -122,7 +122,9 @@ impl Meters {
 // Tests
 // ---------------------------------------------------------------------------
 
-#[cfg(all(test, feature = "otel"))]
+// opentelemetry_sdk::metrics::PeriodicReader calls readlink (process env detection)
+// which miri isolation blocks; OTel metric tests are not the target of UB detection.
+#[cfg(all(test, not(miri), feature = "otel"))]
 mod tests {
     #![allow(clippy::unwrap_used, clippy::expect_used, clippy::panic)]
 

@@ -7,6 +7,9 @@
 //!
 //! Snapshot files are also absent until the first `cargo test` pass in T15b,
 //! at which point `insta` writes them to `tests/snapshots/`.
+// insta uses `cargo metadata` subprocess which miri isolation blocks;
+// snapshot tests are not the target of UB detection.
+#![cfg(not(miri))]
 #![allow(
     clippy::unwrap_used,
     clippy::missing_const_for_fn,

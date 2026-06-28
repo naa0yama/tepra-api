@@ -3,6 +3,9 @@
 //! These tests describe the intended behaviour of the full implementation
 //! (T17b).  They all fail in the current stub because `list_templates`
 //! calls `todo!()` and panics.
+// tempfile::tempdir() calls mkdir which miri isolation blocks;
+// filesystem integration tests are not the target of UB detection.
+#![cfg(not(miri))]
 #![allow(
     clippy::unwrap_used,
     clippy::missing_panics_doc,

@@ -3,6 +3,9 @@
 //! These tests **fail** until T9b implements the HTTP calls in `reqwest_client.rs`.
 //! They compile and the mock server / fixture setup is correct; failure is due to
 //! `todo!()` stubs panicking before the HTTP request is ever issued.
+// wiremock spawns a TCP listener which miri isolation blocks;
+// HTTP integration tests are not the target of UB detection.
+#![cfg(not(miri))]
 #![allow(missing_docs)]
 
 use tepra_core::{

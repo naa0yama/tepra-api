@@ -2,6 +2,9 @@
 //!
 //! `import_frame` relies on `MockTepraClient` (always passes when mock is primed).
 //! `list_template_files` calls `list_templates()` which is `todo!()` → panic → RED.
+// filesystem ops (tempdir/mkdir) are not available under miri isolation;
+// these are integration tests, not the target of UB detection.
+#![cfg(not(miri))]
 #![allow(
     clippy::unwrap_used,
     clippy::indexing_slicing,
