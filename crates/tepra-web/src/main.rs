@@ -28,6 +28,7 @@ async fn main() -> anyhow::Result<()> {
                 .merge(tepra::router::build_jobs_router(state.clone()))
                 .merge(tepra::router::build_templates_router(state.clone()))
                 .merge(tepra::router::build_ui_router(state))
+                .merge(tepra_web::assets::router())
                 .layer(TraceLayer::new_for_http());
 
             let listener = tokio::net::TcpListener::bind(&args.bind)
