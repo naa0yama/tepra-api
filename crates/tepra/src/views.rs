@@ -29,7 +29,7 @@ impl<T: Template> IntoResponse for HtmlTemplate<T> {
 
 /// Context for the top-level index page (`GET /`).
 #[derive(Debug, Template)]
-#[template(path = "index.html")]
+#[template(path = "pages/index.html")]
 pub struct IndexTemplate {
     /// Display names of all known printers.
     pub printers: Vec<String>,
@@ -43,7 +43,7 @@ pub struct IndexTemplate {
 
 /// Context for the per-printer detail page (`GET /printers/{name}`).
 #[derive(Debug, Template)]
-#[template(path = "printer_detail.html")]
+#[template(path = "pages/printer_detail.html")]
 pub struct PrinterDetailTemplate {
     /// Printer identifier.
     pub printer_name: String,
@@ -59,7 +59,7 @@ pub struct PrinterDetailTemplate {
 
 /// Context for the job-status card partial (`GET /jobs/{printer}/{id}`).
 #[derive(Debug, Template)]
-#[template(path = "job_card.html")]
+#[template(path = "partials/job_card.html")]
 pub struct JobCardTemplate {
     /// Printer that owns the job.
     pub printer_name: String,

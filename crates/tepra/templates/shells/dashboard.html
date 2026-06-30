@@ -1,14 +1,10 @@
----
-source: crates/tepra/tests/askama_render.rs
-expression: html
----
-
+{# templates/shells/dashboard.html #}
 <!doctype html>
 <html lang="ja" data-theme="corporate">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PT-P710BT — TEPRA Creator</title>
+  <title>{% block title %}TEPRA{% endblock %} — TEPRA Creator</title>
   <link rel="stylesheet" href="/static/app.css">
   <script src="/static/htmx.min.js" defer></script>
 </head>
@@ -35,15 +31,7 @@ expression: html
       </div>
 
       <main id="main" tabindex="-1" class="flex-1 p-4">
-        
-  
-
-  <h1 class="text-2xl font-bold mb-4">PT-P710BT</h1>
-
-  <div class="badge badge-success">
-    オンライン
-  </div>
-
+        {% block body %}{% endblock %}
       </main>
     </div>
 

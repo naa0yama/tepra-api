@@ -1,0 +1,30 @@
+{# templates/pages/index.html #}
+{% extends "shells/dashboard.html" %}
+{% import "components/alert.html" as components %}
+
+{% block title %}プリンター一覧{% endblock %}
+
+{% block body %}
+  {% if let Some(e) = error %}
+    {{ components::error_alert(message=e) }}
+  {% endif %}
+
+  <h1 class="text-2xl font-bold mb-4">プリンター一覧</h1>
+
+  {% if printers.is_empty() %}
+    <div class="hero min-h-64">
+      <div class="hero-content text-center">
+        <div class="max-w-md">
+          <h2 class="text-xl font-semibold mt-4">プリンターが見つかりません</h2>
+          <p class="opacity-70 mt-2">TEPRA Creator WebAPI に接続されていることを確認してください。</p>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <ul class="menu bg-base-100 rounded-box w-64">
+      {% for printer in printers %}
+        <li><a href="/ui/printers/{{ printer }}">{{ printer }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}
