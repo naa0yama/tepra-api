@@ -90,33 +90,34 @@ mise run dev:up
 
 ## mise タスク一覧
 
-| タスク                | コマンド                 | 説明                         |
-| --------------------- | ------------------------ | ---------------------------- |
-| Setup                 | `mise run setup`         | 初期セットアップ             |
-| Build                 | `mise run build`         | デバッグビルド               |
-| Build (release)       | `mise run build:release` | リリースビルド               |
-| Build (timings)       | `mise run build:timings` | ビルド時間計測               |
-| Check                 | `mise run check`         | cargo check                  |
-| Test                  | `mise run test`          | テスト実行                   |
-| TDD watch             | `mise run test:watch`    | ウォッチモード               |
-| Doc tests             | `mise run test:doc`      | ドキュメントテスト           |
-| Trace test            | `mise run test:trace`    | トレーステスト               |
-| Format                | `mise run fmt`           | フォーマット                 |
-| Format check          | `mise run fmt:check`     | フォーマットチェック         |
-| Lint (clippy)         | `mise run clippy`        | Lint                         |
-| Lint strict           | `mise run clippy:strict` | Lint (warnings をエラー扱い) |
-| Lint                  | `mise run lint`          | 総合 Lint                    |
-| Lint (GitHub Actions) | `mise run lint:gh`       | actionlint                   |
-| AST rules             | `mise run ast-grep`      | ast-grep カスタムルール      |
-| Pre-commit (required) | `mise run pre-commit`    | コミット前チェック           |
-| Pre-push              | `mise run pre-push`      | プッシュ前チェック           |
-| Coverage              | `mise run coverage`      | カバレッジ計測               |
-| Coverage (HTML)       | `mise run coverage:html` | HTML レポート                |
-| Audit                 | `mise run audit`         | セキュリティ監査             |
-| Deny (licenses/deps)  | `mise run deny`          | ライセンス・依存関係チェック |
-| Miri (UB detection)   | `mise run miri`          | 未定義動作検出               |
-| Clean (full)          | `mise run clean`         | 全クリーン                   |
-| Clean (sweep)         | `mise run clean:sweep`   | 不要ファイル削除             |
+| タスク                | コマンド                    | 説明                                |
+| --------------------- | --------------------------- | ----------------------------------- |
+| Setup                 | `mise run setup`            | 初期セットアップ                    |
+| Build                 | `mise run build`            | デバッグビルド                      |
+| Build (release)       | `mise run build:release`    | リリースビルド                      |
+| Build (timings)       | `mise run build:timings`    | ビルド時間計測                      |
+| Check                 | `mise run check`            | cargo check                         |
+| Test                  | `mise run test`             | テスト実行                          |
+| TDD watch             | `mise run test:watch`       | ウォッチモード                      |
+| Doc tests             | `mise run test:doc`         | ドキュメントテスト                  |
+| Trace test            | `mise run test:trace`       | トレーステスト                      |
+| Format                | `mise run fmt`              | フォーマット                        |
+| Format check          | `mise run fmt:check`        | フォーマットチェック                |
+| Lint (clippy)         | `mise run clippy`           | Lint                                |
+| Lint strict           | `mise run clippy:strict`    | Lint (warnings をエラー扱い)        |
+| Lint                  | `mise run lint`             | 総合 Lint                           |
+| Lint (GitHub Actions) | `mise run lint:gh`          | actionlint                          |
+| AST rules             | `mise run ast-grep`         | ast-grep カスタムルール             |
+| Pre-commit (required) | `mise run pre-commit`       | コミット前チェック                  |
+| Pre-push              | `mise run pre-push`         | プッシュ前チェック                  |
+| Coverage              | `mise run coverage`         | カバレッジ計測                      |
+| Coverage (HTML)       | `mise run coverage:html`    | HTML レポート                       |
+| Audit                 | `mise run audit`            | セキュリティ監査                    |
+| Deny (licenses/deps)  | `mise run deny`             | ライセンス・依存関係チェック        |
+| Miri (UB detection)   | `mise run miri`             | 未定義動作検出                      |
+| Clean (full)          | `mise run clean`            | 全クリーン                          |
+| Clean (sweep)         | `mise run clean:sweep`      | 不要ファイル削除                    |
+| Playwright setup      | `mise run setup:playwright` | Playwright MCP ブラウザインストール |
 
 ### コミット前チェック
 
