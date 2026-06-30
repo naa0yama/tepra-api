@@ -95,4 +95,7 @@ mise run o2
 # graft:keep-start
 # Project-specific dependencies are listed here.
 
+echo "Setting up Playwright MCP..."
+mise run setup:playwright
+
 # graft:keep-end
