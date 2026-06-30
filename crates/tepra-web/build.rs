@@ -6,21 +6,21 @@ use std::process::Command;
 use anyhow::{Context as _, anyhow};
 
 fn main() -> anyhow::Result<()> {
-    // 1. pnpm presence check
-    let pnpm_check = Command::new("pnpm").arg("--version").output();
-    match pnpm_check {
-        Ok(out) if out.status.success() => {}
-        Ok(out) => {
-            return Err(anyhow!(
-                "pnpm --version failed: {}\nHint: run `mise install` at the repo root.",
-                String::from_utf8_lossy(&out.stderr)
-            ));
-        }
-        Err(e) => {
-            return Err(anyhow!(
-                "pnpm not found on PATH ({e}).\nHint: mise must be activated. Run `mise exec -- cargo build`."
-            ));
-        }
+    let out_dir = std::env::var("OUT_DIR").context("OUT_DIR not set")?;
+
+    // 1. pnpm presence check — fall back to stubs in CI environments without Node.js
+    let pnpm_available = Command::new("pnpm")
+        .arg("--version")
+        .output()
+        .is_ok_and(|o| o.status.success());
+
+    if !pnpm_available {
+        println!(
+            "cargo:warning=pnpm not found; writing stub assets. \
+             Real build requires `mise exec -- cargo build`."
+        );
+        write_stubs(&out_dir)?;
+        return Ok(());
     }
 
     // 2. Install frontend deps from lockfile
@@ -36,7 +36,6 @@ fn main() -> anyhow::Result<()> {
     }
 
     // 3. Compile CSS
-    let out_dir = std::env::var("OUT_DIR").context("OUT_DIR not set")?;
     let out_css = Path::new(&out_dir).join("app.css");
     let build = Command::new("pnpm")
         .args(["exec", "tailwindcss", "-i", "src/styles/app.css", "-o"])
@@ -100,6 +99,26 @@ fn main() -> anyhow::Result<()> {
     {
         println!("cargo:rerun-if-changed={}", entry.path().display());
     }
+
+    Ok(())
+}
+
+fn write_stubs(out_dir: &str) -> anyhow::Result<()> {
+    let out_css = Path::new(out_dir).join("app.css");
+    std::fs::write(&out_css, b"").context("failed to write stub app.css")?;
+
+    let htmx_dst = Path::new(out_dir).join("htmx.min.js");
+    std::fs::write(&htmx_dst, b"").context("failed to write stub htmx.min.js")?;
+
+    let fonts_dir = Path::new(out_dir).join("fonts");
+    for family in ["ibm-plex-sans-jp", "ibm-plex-mono"] {
+        std::fs::create_dir_all(fonts_dir.join(family))
+            .with_context(|| format!("failed to create stub font dir: {family}"))?;
+    }
+
+    println!("cargo:rerun-if-changed=package.json");
+    println!("cargo:rerun-if-changed=pnpm-lock.yaml");
+    println!("cargo:rerun-if-changed=src/styles");
 
     Ok(())
 }
