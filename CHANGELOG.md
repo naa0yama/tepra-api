@@ -2,6 +2,39 @@
 
 ## What's Changed
 
+### Features 🎉
+
+- feat(observability): add TraceLayer and bump axum-test/tower-http by @naa0yama in https://github.com/naa0yama/tepra-api/pull/17
+
+### Bug Fixes 🐌
+
+- fix(ci): repair release-manager, badges push, and upload-release-assets after v0.0.1 by @naa0yama in https://github.com/naa0yama/tepra-api/pull/10
+
+### Documentation 🗒️
+
+- chore(deps): upgrade axum to 0.8.9 and askama to 0.16.0 by @naa0yama in https://github.com/naa0yama/tepra-api/pull/13
+
+### Dependency Updates 📦
+
+- Update Rust crate phf to 0.14 by @renovate[bot] in https://github.com/naa0yama/tepra-api/pull/9
+
+### Development Environment 🔧
+
+- Update dependency zizmor to v1.26.1 by @renovate[bot] in https://github.com/naa0yama/tepra-api/pull/5
+- Update taiki-e/install-action action to v2.82.2 by @renovate[bot] in https://github.com/naa0yama/tepra-api/pull/14
+- Lock file maintenance by @renovate[bot] in https://github.com/naa0yama/tepra-api/pull/18
+- Update zizmorcore/zizmor-action action to v0.5.7 by @renovate[bot] in https://github.com/naa0yama/tepra-api/pull/21
+- Update dependency jdx/mise to v2026.6.12 by @renovate[bot] in https://github.com/naa0yama/tepra-api/pull/20
+- Update dependency jdx/mise to v2026.6.14 by @renovate[bot] in https://github.com/naa0yama/tepra-api/pull/25
+- Update dependency usage to v3.5.3 by @renovate[bot] in https://github.com/naa0yama/tepra-api/pull/26
+- Update taiki-e/install-action action to v2.82.3 by @renovate[bot] in https://github.com/naa0yama/tepra-api/pull/27
+
+**Full Changelog**: https://github.com/naa0yama/tepra-api/compare/v0.0.1...v0.1.26
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+
+## What's Changed
+
 ### Development Environment 🔧
 
 - chore(deps): lock file maintenance by @renovate[bot] in https://github.com/naa0yama/boilerplate-rust/pull/589
