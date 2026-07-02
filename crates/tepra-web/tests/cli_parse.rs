@@ -1,4 +1,4 @@
-//! RED: clap CLI parse tests for tepra-api binary.
+//! RED: clap CLI parse tests for tepra binary.
 //!
 //! These tests verify the clap derive CLI structure compiles and parses
 //! subcommands / options correctly. They will fail until T18b implements the
@@ -15,7 +15,7 @@ use assert_cmd::Command;
 #[test]
 #[cfg_attr(miri, ignore)]
 fn version_subcommand_exits_success() {
-    Command::cargo_bin("tepra-api")
+    Command::cargo_bin("tepra")
         .unwrap()
         .arg("version")
         .assert()
@@ -25,7 +25,7 @@ fn version_subcommand_exits_success() {
 #[test]
 #[cfg_attr(miri, ignore)]
 fn version_subcommand_prints_version() {
-    Command::cargo_bin("tepra-api")
+    Command::cargo_bin("tepra")
         .unwrap()
         .arg("version")
         .assert()
@@ -41,7 +41,7 @@ fn version_subcommand_prints_version() {
 #[cfg_attr(miri, ignore)]
 fn serve_requires_template_dir() {
     // --template-dir is required; omitting it must fail.
-    Command::cargo_bin("tepra-api")
+    Command::cargo_bin("tepra")
         .unwrap()
         .args(["serve"])
         .assert()
@@ -54,7 +54,7 @@ fn serve_with_template_dir_exits_nonzero_without_server_infra() {
     // Providing --template-dir is accepted by clap; the binary will fail later
     // because there is no server infra yet. We only check that it does NOT
     // fail with a clap parse error (exit code 2 is clap; anything else is OK).
-    let output = Command::cargo_bin("tepra-api")
+    let output = Command::cargo_bin("tepra")
         .unwrap()
         .args(["serve", "--template-dir", "/tmp"])
         .timeout(std::time::Duration::from_secs(2))
@@ -71,7 +71,7 @@ fn serve_with_template_dir_exits_nonzero_without_server_infra() {
 #[test]
 #[cfg_attr(miri, ignore)]
 fn serve_accepts_bind_option() {
-    let output = Command::cargo_bin("tepra-api")
+    let output = Command::cargo_bin("tepra")
         .unwrap()
         .args([
             "serve",
@@ -93,7 +93,7 @@ fn serve_accepts_bind_option() {
 #[test]
 #[cfg_attr(miri, ignore)]
 fn serve_accepts_creator_base_option() {
-    let output = Command::cargo_bin("tepra-api")
+    let output = Command::cargo_bin("tepra")
         .unwrap()
         .args([
             "serve",
@@ -119,7 +119,7 @@ fn serve_accepts_creator_base_option() {
 #[test]
 #[cfg_attr(miri, ignore)]
 fn help_flag_exits_success() {
-    Command::cargo_bin("tepra-api")
+    Command::cargo_bin("tepra")
         .unwrap()
         .arg("--help")
         .assert()
@@ -129,7 +129,7 @@ fn help_flag_exits_success() {
 #[test]
 #[cfg_attr(miri, ignore)]
 fn help_output_contains_serve() {
-    Command::cargo_bin("tepra-api")
+    Command::cargo_bin("tepra")
         .unwrap()
         .arg("--help")
         .assert()
@@ -140,7 +140,7 @@ fn help_output_contains_serve() {
 #[test]
 #[cfg_attr(miri, ignore)]
 fn help_output_contains_version() {
-    Command::cargo_bin("tepra-api")
+    Command::cargo_bin("tepra")
         .unwrap()
         .arg("--help")
         .assert()

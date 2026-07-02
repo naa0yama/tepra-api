@@ -1,12 +1,12 @@
-//! CLI definition for the tepra-api binary.
+//! CLI definition for the tepra binary.
 
 use std::path::PathBuf;
 
 use clap::{Parser, Subcommand};
 
-/// tepra-api: TEPRA Creator `WebAPI` facade server.
+/// tepra: TEPRA Creator `WebAPI` facade server.
 #[derive(Debug, Parser)]
-#[command(name = "tepra-api", version, about)]
+#[command(name = "tepra", version, about)]
 pub struct Cli {
     /// Subcommand to run.
     #[command(subcommand)]

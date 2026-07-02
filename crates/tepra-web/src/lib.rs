@@ -1,6 +1,7 @@
 #![warn(missing_docs)]
 //! tepra-web: HTTP server and templates.
 
+pub mod assets;
 pub mod cli;
 
 /// Crate version baked at compile time.

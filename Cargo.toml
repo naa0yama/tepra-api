@@ -7,7 +7,7 @@ resolver = "3"
 # Project-specific dependencies are listed here.
 
 members = [
-	"crates/tepra-api",
+	"crates/tepra",
 	"crates/tepra-core",
 	"crates/tepra-web",
 ]
@@ -48,6 +48,7 @@ ulid = { version = "1", features = ["serde"] }
 
 ## HTTP/Web
 axum = { version = "0.8.9", features = ["macros", "multipart"] }
+rust-embed = { version = "8.11.0", features = ["interpolate-folder-path"] }
 tokio = { version = "1.52.3", features = ["full"] }
 tower = "0.5.3"
 tower-http = { version = "0.7.0", features = ["fs", "trace"] }
@@ -62,7 +63,7 @@ askama = "0.16.0"
 url = "2.5.8"
 
 ## Workspace crates
-tepra-api = { path = "crates/tepra-api" }
+tepra = { path = "crates/tepra" }
 tepra-core = { path = "crates/tepra-core" }
 
 ## Dev

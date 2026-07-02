@@ -55,4 +55,11 @@ src-tauri/gen/
 
 # graft:keep-end
 
+# pnpm
+.pnpm-store/
+node_modules/
+
+# python
+__pycache__/
+
 # Under the unknown

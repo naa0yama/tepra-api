@@ -37,6 +37,7 @@ All tasks use `mise run <task>`:
 | Clean (full)          | `mise run clean`              |
 | Clean (sweep)         | `mise run clean:sweep`        |
 | Badges (init)         | `mise run badges:init`        |
+| Playwright setup      | `mise run setup:playwright`   |
 | Claude Code (install) | `mise run claudecode:install` |
 | O2 (install)          | `mise run o2:install`         |
 | O2 (start)            | `mise run o2`                 |
